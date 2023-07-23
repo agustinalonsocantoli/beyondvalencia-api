@@ -13,6 +13,6 @@ app.use(express.json());
 // CORS
 app.use(cors());
 
-app.use('/api', homeRouter);
+app.use('/', homeRouter);
 
 export default app;
