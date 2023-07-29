@@ -103,7 +103,7 @@ const codesController = {
 
             res.json({
                 message: `Code deleted successfully`,
-                data: req.params.slug
+                data: req.params.id
             })
 
         } catch(error) {

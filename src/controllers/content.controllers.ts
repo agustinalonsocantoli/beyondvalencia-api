@@ -1,27 +1,27 @@
 import { NextFunction, Response, Request } from "express";
-import Multimedia from "../models/multimedia.models";
-import { MultimediaInt } from "../interfaces/MultimediaInt";
+import { ContentInt } from "../interfaces/ContentInt";
+import Content from "../models/content.models";
 
-const multimediaController = {
-    getAllMultimedia: async (req: Request, res: Response, next: NextFunction) => {
+const contentController = {
+    getAllContent: async (req: Request, res: Response, next: NextFunction) => {
         
         try {
             const query = req.query;
-            let multimedia;
+            let content;
 
             if(query.hasOwnProperty("landing")) {
-                multimedia = await Multimedia.find(query)
+                content = await Content.find(query)
                 .exec()
                 .catch((e) => next(e));
             } else {
-                multimedia = await Multimedia.find()
+                content = await Content.find()
                 .exec()
                 .catch((e) => next(e));
             }
             
             res.json({
-                message: "Multimedia obtained successfully", 
-                data: multimedia
+                message: "Content obtained successfully", 
+                data: content
             });
 
         } catch(error) {
@@ -32,17 +32,17 @@ const multimediaController = {
             });
         }
     },
-    getMultimedia: async (req: Request, res: Response, next: NextFunction) => {
+    getContent: async (req: Request, res: Response, next: NextFunction) => {
         
         try {    
 
-            const multimedia = await Multimedia.findOne({_id: req.params.id})
+            const content = await Content.findOne({_id: req.params.id})
             .exec()
             .catch((e) => next(e));
     
             res.json({
-                message: "Multimedia obtained successfully",
-                data: multimedia
+                message: "Content obtained successfully",
+                data: content
             });
 
         } catch(error) {
@@ -53,26 +53,27 @@ const multimediaController = {
             });
         }
     },
-    updateMultimedia: async (req: Request, res: Response, next: NextFunction) => {
+    updateContent: async (req: Request, res: Response, next: NextFunction) => {
 
         try {
 
-            const editMultimedia: MultimediaInt = {
+            const editContent: ContentInt = {
                 landing: req.body.landing,
-                navigate: req.body.body,
-                src: req.body.src,
+                link: req.body.link,
+                img: req.body.img,
+                imgW: req.body.imgW,
+                type: req.body.type,
                 h3: req.body.h3,
                 p: req.body.p,
                 span: req.body.span,
-                type: req.body.type
             }
 
-            await Multimedia.findOneAndUpdate({_id: req.params.id}, editMultimedia)
+            await Content.findOneAndUpdate({_id: req.params.id}, editContent)
             .catch((e) => next(e));
 
             res.json({
-                message: `Multimedia update successfully`,
-                data: editMultimedia
+                message: `Content update successfully`,
+                data: editContent
             })
         
         } catch(error) {
@@ -84,4 +85,4 @@ const multimediaController = {
     },
 }
 
-export default multimediaController;
+export default contentController;

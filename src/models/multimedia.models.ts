@@ -1,7 +1,7 @@
 import { model, Schema } from "mongoose";
 
 const multimediaSchema = new Schema({
-    slug: {type: String, require: true, unique: true},
+    landing: {type: String, require: true},
     navigate: {type: String, unique: true},
     src: String,
     h3: String,

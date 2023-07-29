@@ -1,9 +1,16 @@
+enum TypeLanding {
+    HOME = "home",
+    EXPERIENCES = "experiences",
+    DAYTRIPS = "daytrips",
+    FOOD = "food"
+}
+
 export interface MultimediaInt {
-    slug: string
-    navigate: string;
+    navigate?: string;
     src: string;
-    h3: string;
+    h3?: string;
     p?: string;
     span?: string;
-    type: string;
+    type: 'image' | "video";
+    landing?: TypeLanding;
 }

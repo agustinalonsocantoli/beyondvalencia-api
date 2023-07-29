@@ -6,12 +6,8 @@ const router = express.Router();
 
 router.get('/', [verifyToken], multimediaController.getAllMultimedia)
 
-router.get('/:slug', [verifyToken], multimediaController.getMultimedia)
+router.get('/:id', [verifyToken], multimediaController.getMultimedia)
 
-router.post('/', [verifyToken], multimediaController.newMultimedia)
-
-router.put('/:slug', [verifyToken], multimediaController.updateMultimedia)
-
-router.delete('/:slug', [verifyToken], multimediaController.deleteMultimedia)
+router.put('/:id', [verifyToken], multimediaController.updateMultimedia)
 
 export default router;
