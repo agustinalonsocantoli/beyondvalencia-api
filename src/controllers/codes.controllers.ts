@@ -51,7 +51,9 @@ const codesController = {
     
             const newCode: CodesInt = {
                 code: req.body.code,
-                discount: req.body.discount
+                discount: req.body.discount,
+                state: req.body.state,
+                partner: req.body.partner
             }
     
             await Codes.create(newCode)
@@ -76,7 +78,9 @@ const codesController = {
 
             const editCode: CodesInt = {
                 code: req.body.code,
-                discount: req.body.discount
+                discount: req.body.discount,
+                state: req.body.state,
+                partner: req.body.partner
             }
 
             await Codes.findOneAndUpdate({_id: req.params.id}, editCode)

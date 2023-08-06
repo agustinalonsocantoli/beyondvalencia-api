@@ -25,7 +25,7 @@ const authController = {
 
             const token = jwt.sign({id: user._id}, HASH_TOKEN, {expiresIn: 432000})
 
-            res.json({
+            res.status(200).json({
                 message: "User created successfully",
                 data: user,
                 token: token
@@ -33,7 +33,7 @@ const authController = {
         }
         catch(error){
             next(error);
-            res.json({
+            res.status(404).json({
                 messages: 'Error en el Servidor',
                 error: error
             })
@@ -45,11 +45,11 @@ const authController = {
         try {
             const foundUser: any = await Users.findOne({username: req.body.username})
 
-            if(!foundUser) return res.json({ message: "No User found", data: req.body.username });
+            if(!foundUser) return res.status(404).json({ message: "No User found", data: req.body.username });
             
             const comparePassword = validatePassword(req.body.password, foundUser.password);
 
-            if(!comparePassword) return res.json({ message: "Invalid password", data: null });
+            if(!comparePassword) return res.status(404).json({ message: "Invalid password", data: null });
 
             const token = jwt.sign({id: foundUser._id, }, HASH_TOKEN, {expiresIn: 432000});
 

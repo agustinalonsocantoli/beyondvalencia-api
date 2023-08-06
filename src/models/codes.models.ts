@@ -1,8 +1,10 @@
 import { model, Schema } from "mongoose";
 
 const codesSchema = new Schema({
-    code: String,
-    discount: Number
+    code: {type: String, unique: true, require: true},
+    discount: {type: Number, require: true},
+    state: Boolean,
+    partner: Object,
 },
 {
     timestamps: true,

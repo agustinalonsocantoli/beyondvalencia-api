@@ -10,6 +10,7 @@ import daytripsRouter from './routes/daytrips.routes';
 import multimediaRouter from './routes/multimedia.routes';
 import contentRouter from './routes/content.routes';
 import codesRouter from './routes/codes.routes';
+import partnersRouter from './routes/partners.routes';
 import bikesRouter from './routes/bikes.routes';
 import lockersRouter from './routes/lockers.routes';
 
@@ -28,6 +29,7 @@ app.use('/daytrips', daytripsRouter);
 app.use('/multimedia', multimediaRouter);
 app.use('/content', contentRouter);
 app.use('/codes', codesRouter);
+app.use('/partners', partnersRouter);
 app.use('/bikes', bikesRouter);
 app.use('/lockers', lockersRouter);
 
