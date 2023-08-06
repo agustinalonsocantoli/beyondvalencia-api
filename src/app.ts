@@ -13,6 +13,7 @@ import codesRouter from './routes/codes.routes';
 import partnersRouter from './routes/partners.routes';
 import bikesRouter from './routes/bikes.routes';
 import lockersRouter from './routes/lockers.routes';
+import eventsRouter from './routes/events.routes';
 
 // CONFIG 
 const app = express();
@@ -26,6 +27,7 @@ app.use('/', homeRouter);
 app.use('/auth', authRouter);
 app.use('/experiences', experiencesRouter);
 app.use('/daytrips', daytripsRouter);
+app.use('/events', eventsRouter);
 app.use('/multimedia', multimediaRouter);
 app.use('/content', contentRouter);
 app.use('/codes', codesRouter);
