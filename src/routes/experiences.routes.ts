@@ -4,9 +4,9 @@ import experiencesController from "../controllers/experiences.controllers";
 
 const router = express.Router();
 
-router.get('/', [verifyToken], experiencesController.getAllExperiences)
+router.get('/', experiencesController.getAllExperiences)
 
-router.get('/:slug', [verifyToken], experiencesController.getExperience)
+router.get('/:slug', experiencesController.getExperience)
 
 router.post('/', [verifyToken], experiencesController.newExperience)
 
