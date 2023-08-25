@@ -1,6 +1,6 @@
 import express from "express";
-import { verifyToken } from "../middlewares/auth.jwt";
-import lockersController from "../controllers/lockers.controllers";
+import { verifyToken } from "../../middlewares/auth.jwt";
+import lockersController from "../../controllers/lockers.controllers";
 
 const router = express.Router();
 

@@ -1,6 +1,7 @@
 import { NextFunction, Response, Request } from "express";
 import Experiences from "../models/experiences.models";
 import { ExperiencesInt } from "../interfaces/ExperiencesInt";
+import { transformToSlug } from "../functions/transformToSlug";
 
 const experiencesController = {
     getAllExperiences: async (_req: Request, res: Response, next: NextFunction) => {
@@ -24,11 +25,32 @@ const experiencesController = {
             });
         }
     },
-    getExperience: async (req: Request, res: Response, next: NextFunction) => {
+    getExperienceBySlug: async (req: Request, res: Response, next: NextFunction) => {
         
         try {    
 
             const experiences = await Experiences.findOne({slug: req.params.slug})
+            .exec()
+            .catch((e) => next(e));
+    
+            res.json({
+                message: "Experience obtained successfully",
+                data: experiences
+            });
+
+        } catch(error) {
+            next(error);
+            res.json({
+                messages: 'Error en el Servidor',
+                error: error
+            });
+        }
+    },
+    getExperienceById: async (req: Request, res: Response, next: NextFunction) => {
+        
+        try {    
+
+            const experiences = await Experiences.findOne({_id: req.params.id})
             .exec()
             .catch((e) => next(e));
     
@@ -50,7 +72,7 @@ const experiencesController = {
         try {
     
             const newExperience: ExperiencesInt = {
-                slug: req.body.slug,
+                slug: transformToSlug(req.body.title),
                 title: req.body.title,
                 subtitle: req.body.subtitle,
                 headline: req.body.headline,
@@ -88,7 +110,7 @@ const experiencesController = {
         try {
 
             const editExperience: ExperiencesInt = {
-                slug: req.body.slug,
+                slug: transformToSlug(req.body.title),
                 title: req.body.title,
                 subtitle: req.body.subtitle,
                 headline: req.body.headline,
@@ -105,7 +127,7 @@ const experiencesController = {
                 published: req.body.published,
             }
 
-            await Experiences.findOneAndUpdate({slug: req.params.slug}, editExperience)
+            await Experiences.findOneAndUpdate({_id: req.params.id}, editExperience)
             .catch((e) => next(e));
 
             res.json({
@@ -123,13 +145,13 @@ const experiencesController = {
     deleteExperience: async (req: Request, res: Response, next: NextFunction) => {
 
         try {
-            await Experiences.findOneAndDelete({slug: req.params.slug})
+            await Experiences.findOneAndDelete({_id: req.params.id})
             .exec()
             .catch((e) => next(e));
 
             res.json({
                 message: `Experience deleted successfully`,
-                data: req.params.slug
+                data: req.params.id
             })
 
         } catch(error) {

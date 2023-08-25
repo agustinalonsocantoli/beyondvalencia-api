@@ -1,6 +1,7 @@
 import { NextFunction, Response, Request } from "express";
 import Daytrips from "../models/daytrips.models";
 import { DaystripsInt } from "../interfaces/DaytripsInt";
+import { transformToSlug } from "../functions/transformToSlug";
 
 const daytripsController = {
     getAllDaytrips: async (_req: Request, res: Response, next: NextFunction) => {
@@ -24,7 +25,28 @@ const daytripsController = {
             });
         }
     },
-    getDaytrip: async (req: Request, res: Response, next: NextFunction) => {
+    getDaytripById: async (req: Request, res: Response, next: NextFunction) => {
+        
+        try {    
+
+            const daytrips = await Daytrips.findOne({_id: req.params.id})
+            .exec()
+            .catch((e) => next(e));
+    
+            res.json({
+                message: "Day Trip obtained successfully",
+                data: daytrips
+            });
+
+        } catch(error) {
+            next(error);
+            res.json({
+                messages: 'Error en el Servidor',
+                error: error
+            });
+        }
+    },
+    getDaytripBySlug: async (req: Request, res: Response, next: NextFunction) => {
         
         try {    
 
@@ -50,7 +72,7 @@ const daytripsController = {
         try {
     
             const newDaytrip: DaystripsInt = {
-                slug: req.body.slug,
+                slug: transformToSlug(req.body.title),
                 title: req.body.title,
                 subtitle: req.body.subtitle,
                 headline: req.body.headline,
@@ -88,7 +110,7 @@ const daytripsController = {
         try {
 
             const editDaytrip: DaystripsInt = {
-                slug: req.body.slug,
+                slug: transformToSlug(req.body.title),
                 title: req.body.title,
                 subtitle: req.body.subtitle,
                 headline: req.body.headline,
@@ -105,7 +127,7 @@ const daytripsController = {
                 published: req.body.published,
             }
 
-            await Daytrips.findOneAndUpdate({slug: req.params.slug}, editDaytrip)
+            await Daytrips.findOneAndUpdate({_id: req.params.id}, editDaytrip)
             .catch((e) => next(e));
 
             res.json({
@@ -123,13 +145,13 @@ const daytripsController = {
     deleteDaytrip: async (req: Request, res: Response, next: NextFunction) => {
 
         try {
-            await Daytrips.findOneAndDelete({slug: req.params.slug})
+            await Daytrips.findOneAndDelete({_id: req.params.id})
             .exec()
             .catch((e) => next(e));
 
             res.json({
                 message: `Day Trip deleted successfully`,
-                data: req.params.slug
+                data: req.params.id
             })
 
         } catch(error) {

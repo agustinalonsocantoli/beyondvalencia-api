@@ -4,7 +4,7 @@ const lockersSchema = new Schema({
     title: String,
     type: String,
     description: String,
-    select: String || Array<String>,
+    select: Schema.Types.Mixed,
     price: {
         small: Number,
         medium: Number,

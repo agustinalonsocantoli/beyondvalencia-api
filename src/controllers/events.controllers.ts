@@ -1,6 +1,7 @@
 import { NextFunction, Response, Request } from "express";
 import Events from "../models/events.models";
 import { EventsInt } from "../interfaces/EventsInt";
+import { transformToSlug } from "../functions/transformToSlug";
 
 const eventsController = {
     getAllEvents: async (_req: Request, res: Response, next: NextFunction) => {
@@ -24,11 +25,32 @@ const eventsController = {
             });
         }
     },
-    getEvent: async (req: Request, res: Response, next: NextFunction) => {
+    getEventBySlug: async (req: Request, res: Response, next: NextFunction) => {
         
         try {    
 
             const events = await Events.findOne({slug: req.params.slug})
+            .exec()
+            .catch((e) => next(e));
+    
+            res.json({
+                message: "Event obtained successfully",
+                data: events
+            });
+
+        } catch(error) {
+            next(error);
+            res.json({
+                messages: 'Error en el Servidor',
+                error: error
+            });
+        }
+    },
+    getEventById: async (req: Request, res: Response, next: NextFunction) => {
+        
+        try {    
+
+            const events = await Events.findOne({_id: req.params.id})
             .exec()
             .catch((e) => next(e));
     
@@ -50,7 +72,7 @@ const eventsController = {
         try {
     
             const newEvent: EventsInt = {
-                slug: req.body.slug,
+                slug: transformToSlug(req.body.title),
                 title: req.body.title,
                 subtitle: req.body.subtitle,
                 headline: req.body.headline,
@@ -89,7 +111,7 @@ const eventsController = {
         try {
 
             const editEvent: EventsInt = {
-                slug: req.body.slug,
+                slug: transformToSlug(req.body.title),
                 title: req.body.title,
                 subtitle: req.body.subtitle,
                 headline: req.body.headline,
@@ -107,7 +129,7 @@ const eventsController = {
                 eventDate: req.body.eventDate
             }
 
-            await Events.findOneAndUpdate({slug: req.params.slug}, editEvent)
+            await Events.findOneAndUpdate({_id: req.params.id}, editEvent)
             .catch((e) => next(e));
 
             res.json({
@@ -125,13 +147,13 @@ const eventsController = {
     deleteEvent: async (req: Request, res: Response, next: NextFunction) => {
 
         try {
-            await Events.findOneAndDelete({slug: req.params.slug})
+            await Events.findOneAndDelete({_id: req.params.id})
             .exec()
             .catch((e) => next(e));
 
             res.json({
                 message: `Events deleted successfully`,
-                data: req.params.slug
+                data: req.params.id
             })
 
         } catch(error) {

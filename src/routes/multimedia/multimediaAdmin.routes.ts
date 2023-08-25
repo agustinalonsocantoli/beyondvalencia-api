@@ -1,6 +1,6 @@
 import express from "express";
-import { verifyToken } from "../middlewares/auth.jwt";
-import multimediaController from "../controllers/multimedia.controllers";
+import { verifyToken } from "../../middlewares/auth.jwt";
+import multimediaController from "../../controllers/multimedia.controllers";
 
 const router = express.Router();
 
