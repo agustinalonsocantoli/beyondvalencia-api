@@ -4,7 +4,7 @@ import eventsController from "../../controllers/events.controllers";
 
 const router = express.Router();
 
-router.get('/', eventsController.getAllEvents)
+router.get('/', [verifyToken], [verifyToken], eventsController.getAllEvents)
 
 router.get('/:id', [verifyToken], eventsController.getEventById)
 

@@ -4,7 +4,7 @@ import experiencesController from "../../controllers/experiences.controllers";
 
 const router = express.Router();
 
-router.get('/', experiencesController.getAllExperiences)
+router.get('/', [verifyToken], experiencesController.getAllExperiences)
 
 router.get('/:id', [verifyToken],experiencesController.getExperienceById)
 

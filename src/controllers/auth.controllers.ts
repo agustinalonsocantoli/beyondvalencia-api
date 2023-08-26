@@ -23,7 +23,7 @@ const authController = {
             const user = await Users.create(newUser)
             .catch((e) => next(e));
 
-            const token = jwt.sign({id: user._id}, HASH_TOKEN, {expiresIn: 432000})
+            const token = jwt.sign({id: user._id}, HASH_TOKEN, {expiresIn: 259200})
 
             res.status(200).json({
                 message: "User created successfully",
@@ -51,7 +51,7 @@ const authController = {
 
             if(!comparePassword) return res.status(404).json({ message: "Invalid password", data: null });
 
-            const token = jwt.sign({id: foundUser._id, }, HASH_TOKEN, {expiresIn: 432000});
+            const token = jwt.sign({id: foundUser._id, }, HASH_TOKEN, {expiresIn: 259200});
 
             const userLogin = foundUser;
             userLogin.password = 'No access';

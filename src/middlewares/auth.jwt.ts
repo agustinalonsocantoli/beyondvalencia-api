@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+import jwt, { JsonWebTokenError, NotBeforeError, TokenExpiredError } from "jsonwebtoken";
 import Users from "../models/users.models";
 import dotenv from 'dotenv';
 import { NextFunction } from "express";
@@ -13,13 +13,24 @@ export const verifyToken = async (req: any, res: any, next: NextFunction) => {
 
         if(!token) return res.json({ message: "Unauthorized" })
 
-        const decoded: any = jwt.verify(token, HASH_TOKEN);
-        req.userId = decoded.id;
-        const user = await Users.findById(req.userId, { password: 0 })
+        jwt.verify(token, HASH_TOKEN, async (err: any, decoded: any) => {
+            if (err instanceof TokenExpiredError) {
+              return res.status(401).send({ success: false, message: 'Unauthorized, access Token was expired' });
+            }
+            if (err instanceof NotBeforeError) {
+              return res.status(401).send({ success: false, message: 'jwt not active' });
+            }
+            if (err instanceof JsonWebTokenError) {
+              return res.status(401).send({ success: false, message: 'jwt malformed' });
+            }
 
-        if(!user) return res.json({ message: "No User found", data: null })
+            req.userId = decoded.id;
+            const user = await Users.findById(req.userId, { password: 0 })
+    
+            if(!user) return res.json({ message: "No User found", data: null })
 
-        next();
+            next();
+          });
     }  
     catch(error) {
         next(error);

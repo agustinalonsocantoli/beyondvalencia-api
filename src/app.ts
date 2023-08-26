@@ -2,6 +2,8 @@
 import express from 'express';
 import cors from "cors";
 import morgan from 'morgan';
+import bodyParser from 'body-parser';
+
 // Routes
 import homeRouter from './routes/home/home.routes';
 import authRouter from './routes/auth/auth.routes';
@@ -26,7 +28,8 @@ import eventsWebRouter from './routes/events/eventsWeb.routes';
 // CONFIG 
 const app = express();
 app.use(morgan('dev'));
-app.use(express.json());
+app.use(bodyParser.json({ limit: "200mb" }));
+app.use(bodyParser.urlencoded({ limit: "200mb",  extended: true, parameterLimit: 1000000 }));
 
 // CORS
 app.use(cors());
