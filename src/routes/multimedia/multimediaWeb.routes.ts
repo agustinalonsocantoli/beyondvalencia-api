@@ -5,7 +5,4 @@ const router = express.Router();
 
 router.get('/', multimediaController.getAllMultimedia)
 
-router.get('/:id', multimediaController.getMultimedia)
-
-
 export default router;

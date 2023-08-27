@@ -59,7 +59,7 @@ const multimediaController = {
 
             const editMultimedia: MultimediaInt = {
                 landing: req.body.landing,
-                navigate: req.body.body,
+                navigate: req.body.navigate,
                 src: req.body.src,
                 h3: req.body.h3,
                 p: req.body.p,

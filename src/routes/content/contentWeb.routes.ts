@@ -5,6 +5,4 @@ const router = express.Router();
 
 router.get('/', contentController.getAllContent)
 
-router.get('/:id', contentController.getContent)
-
 export default router;
