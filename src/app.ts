@@ -33,7 +33,11 @@ app.use(bodyParser.urlencoded({ limit: "200mb", extended: true, parameterLimit: 
 
 // CORS
 const corsOptions = {
-    origin: ["https://beyondvalencia.com", "https://beyondvalencia-admin.vercel.app"],
+    origin: [
+        "https://beyondvalencia.com", 
+        "https://beyondvalencia-admin.vercel.app",
+        "http://localhost:5173"
+    ],
     optionsSuccessStatus: 200
 }
 
