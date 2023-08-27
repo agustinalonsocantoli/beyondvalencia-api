@@ -3,13 +3,21 @@ import Codes from "../models/codes.models";
 import { CodesInt } from "../interfaces/CodesInt";
 
 const codesController = {
-    getAllCodes: async (_req: Request, res: Response, next: NextFunction) => {
+    getAllCodes: async (req: Request, res: Response, next: NextFunction) => {
         
         try {
-            
-            const codes = await Codes.find()
-            .exec()
-            .catch((e) => next(e));
+            const query = req.query;
+            let codes;
+
+            if(query.hasOwnProperty("code")) {
+                codes = await Codes.find(query)
+                .exec()
+                .catch((e) => next(e));
+            } else {
+                codes = await Codes.find()
+                .exec()
+                .catch((e) => next(e));
+            }
 
             res.json({
                 message: "Codes obtained successfully", 
