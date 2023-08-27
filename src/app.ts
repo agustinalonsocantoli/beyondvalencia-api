@@ -29,10 +29,15 @@ import eventsWebRouter from './routes/events/eventsWeb.routes';
 const app = express();
 app.use(morgan('dev'));
 app.use(bodyParser.json({ limit: "200mb" }));
-app.use(bodyParser.urlencoded({ limit: "200mb",  extended: true, parameterLimit: 1000000 }));
+app.use(bodyParser.urlencoded({ limit: "200mb", extended: true, parameterLimit: 1000000 }));
 
 // CORS
-app.use(cors());
+const corsOptions = {
+    origin: ["https://beyondvalencia.com", "https://beyondvalencia-admin.vercel.app"],
+    optionsSuccessStatus: 200
+}
+
+app.use(cors(corsOptions));
 
 app.use('/', homeRouter);
 
