@@ -6,6 +6,7 @@ import bodyParser from 'body-parser';
 
 // Routes
 import homeRouter from './routes/home/home.routes';
+import stripeRouter from './routes/stripe/stripe.routes';
 import authRouter from './routes/auth/auth.routes';
 import experiencesWebRouter from './routes/experiences/experiencesWeb.routes';
 import experiencesAdminRouter from './routes/experiences/experiencesAdmin.routes';
@@ -44,6 +45,8 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use('/', homeRouter);
+
+app.use('/', stripeRouter);
 
 app.use('/admin/auth', authRouter);
 
