@@ -5,12 +5,18 @@ import dotenv from 'dotenv';
 dotenv.config()
 
 const HASH_TOKEN = process.env.SECRET_KEY ? process.env.SECRET_KEY : "BEYOND-VALENCIA-TOKEN"
+const SIGNUP_HASH = process.env.SIGNUP_HASH ? process.env.SIGNUP_HASH : ""
 
 const authController = {
 
     signup: async (req: any, res: any, next: any) => {
 
         try{
+            const hash = req.headers["signup-hash"];
+
+            const compareHash = validatePassword(hash, SIGNUP_HASH);
+
+            if(!compareHash) return res.status(404).json({ message: "Invalid Signup Hash" });
 
             const newUser = {
                 username: req.body.username,

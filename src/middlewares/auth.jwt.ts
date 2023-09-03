@@ -38,5 +38,4 @@ export const verifyToken = async (req: any, res: any, next: NextFunction) => {
             message: "Unauthorized"
         })
     }
-
 };
