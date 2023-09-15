@@ -38,7 +38,9 @@ const corsOptions = {
         "https://beyondvalencia.com", 
         "https://beyondvalencia-admin.vercel.app",
         "http://localhost:5173",
-        "https://beyond-valencia-git-develop-agustinalonsocantoli.vercel.app"
+        "http://localhost:3000",
+        "https://beyond-valencia-git-develop-agustinalonsocantoli.vercel.app",
+        "https://beyond-valencia-web.vercel.app"
     ],
     optionsSuccessStatus: 200
 }
