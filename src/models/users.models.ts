@@ -6,6 +6,7 @@ const usersSchema = new Schema({
     password: { type: String, require: true},
     firstName: String,
     lastName: String,
+    rol: [{ref: "Rol", type: Schema.Types.ObjectId}],
 },
 {
     timestamps: true,

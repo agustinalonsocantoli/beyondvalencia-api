@@ -2,6 +2,7 @@ import Users from "../models/users.models";
 import { encryptPassword, validatePassword } from '../functions/hashUser';
 import jwt from "jsonwebtoken";
 import dotenv from 'dotenv';
+import Rol from "../models/rol.models";
 dotenv.config()
 
 const HASH_TOKEN = process.env.SECRET_KEY ? process.env.SECRET_KEY : "BEYOND-VALENCIA-TOKEN"
@@ -18,12 +19,20 @@ const authController = {
 
             if(!compareHash) return res.status(404).json({ message: "Invalid Signup Hash" });
 
-            const newUser = {
+            const newUser: any = {
                 username: req.body.username,
                 email: req.body.email,
                 password: encryptPassword(req.body.password),
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
+            }
+
+            if(req.body.rol) {
+                const foundRol = await Rol.find({name: {$in: req.body.rol}});
+                newUser.rol = foundRol.map(rol => rol._id);
+            } else {
+                const foundRol = await Rol.find({name: 'partner'});
+                newUser.rol = foundRol.map(rol => rol._id);
             }
 
             const user = await Users.create(newUser)
@@ -49,7 +58,7 @@ const authController = {
     login: async (req: any, res: any, next: any) => {
 
         try {
-            const foundUser: any = await Users.findOne({username: req.body.username})
+            const foundUser: any = await Users.findOne({username: req.body.username}).populate("rol")
 
             if(!foundUser) return res.status(404).json({ message: "No User found", data: req.body.username });
             
