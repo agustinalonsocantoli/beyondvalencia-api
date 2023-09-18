@@ -1,17 +1,17 @@
 import express from "express";
-import { verifyToken } from "../../middlewares/auth.jwt";
+import { isAdmin, verifyToken } from "../../middlewares/auth.jwt";
 import partnersController from "../../controllers/partners.controllers";
 
 const router = express.Router();
 
-router.get('/', [verifyToken], partnersController.getAllPartners)
+router.get('/', [verifyToken, isAdmin], partnersController.getAllPartners)
 
-router.get('/:id', [verifyToken], partnersController.getPartner)
+router.get('/:id', [verifyToken, isAdmin], partnersController.getPartner)
 
-router.post('/', [verifyToken], partnersController.newPartner)
+router.post('/', [verifyToken, isAdmin], partnersController.newPartner)
 
-router.put('/:id', [verifyToken], partnersController.updatePartner)
+router.put('/:id', [verifyToken, isAdmin], partnersController.updatePartner)
 
-router.delete('/:id', [verifyToken], partnersController.deletePartner)
+router.delete('/:id', [verifyToken, isAdmin], partnersController.deletePartner)
 
 export default router;

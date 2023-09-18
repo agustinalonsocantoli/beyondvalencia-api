@@ -1,17 +1,17 @@
 import express from "express";
-import { verifyToken } from "../../middlewares/auth.jwt";
+import { isAdmin, verifyToken } from "../../middlewares/auth.jwt";
 import bikesController from "../../controllers/bikes.controllers";
 
 const router = express.Router();
 
-router.get('/', [verifyToken], bikesController.getAllBikes)
+router.get('/', [verifyToken, isAdmin], bikesController.getAllBikes)
 
-router.get('/:id', [verifyToken], bikesController.getBike)
+router.get('/:id', [verifyToken, isAdmin], bikesController.getBike)
 
-router.post('/', [verifyToken], bikesController.newBike)
+router.post('/', [verifyToken, isAdmin], bikesController.newBike)
 
-router.put('/:id', [verifyToken], bikesController.updateBike)
+router.put('/:id', [verifyToken, isAdmin], bikesController.updateBike)
 
-router.delete('/:id', [verifyToken], bikesController.deleteBike)
+router.delete('/:id', [verifyToken, isAdmin], bikesController.deleteBike)
 
 export default router;

@@ -1,5 +1,5 @@
 import express from "express";
-import { verifyToken } from "../../middlewares/auth.jwt";
+import { isAdmin, verifyToken } from "../../middlewares/auth.jwt";
 import eventsController from "../../controllers/events.controllers";
 
 const router = express.Router();
@@ -10,8 +10,8 @@ router.get('/:id', [verifyToken], eventsController.getEventById)
 
 router.post('/', [verifyToken], eventsController.newEvent)
 
-router.put('/:id', [verifyToken], eventsController.updateEvent)
+router.put('/:id', [verifyToken, isAdmin], eventsController.updateEvent)
 
-router.delete('/:id', [verifyToken], eventsController.deleteEvent)
+router.delete('/:id', [verifyToken, isAdmin], eventsController.deleteEvent)
 
 export default router;
