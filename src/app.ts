@@ -33,19 +33,19 @@ app.use(bodyParser.json({ limit: "200mb" }));
 app.use(bodyParser.urlencoded({ limit: "200mb", extended: true, parameterLimit: 1000000 }));
 
 // CORS
-// const corsOptions = {
-//     origin: [
-//         "https://beyondvalencia.com", 
-//         "https://beyondvalencia-admin.vercel.app",
-//         "http://localhost:5173",
-//         "http://localhost:3000",
-//         "https://beyond-valencia-git-develop-agustinalonsocantoli.vercel.app",
-//         "https://beyond-valencia-web.vercel.app"
-//     ],
-//     optionsSuccessStatus: 200
-// }
+const corsOptions = {
+    origin: [
+        "https://beyondvalencia.com", 
+        "https://beyondvalencia-admin.vercel.app",
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "https://beyond-valencia-git-develop-agustinalonsocantoli.vercel.app",
+        "https://beyond-valencia-web.vercel.app"
+    ],
+    optionsSuccessStatus: 200
+}
 
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.use('/', homeRouter);
 
